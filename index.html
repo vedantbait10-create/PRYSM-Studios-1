@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#09090d" />
+  <meta name="description" content="PRYSM Studios combines creative direction, AI-powered production, motion design, and visual storytelling to create distinctive films, advertisements, and brand experiences." />
+  <meta property="og:title" content="PRYSM Studios — Ideas, Reimagined." />
+  <meta property="og:description" content="AI-powered production. Human-led creativity." />
+  <meta property="og:type" content="website" />
+  <title>PRYSM Studios — Ideas, Reimagined.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #09090D; --surface: #15151C; --surface2: #1b1b24;
+      --text: #F5F3EE; --muted: #92929E; --lime: #C7FF3D;
+      --violet: #A78BFA; --line: rgba(245,243,238,.12);
+      --font-display: "Syne", sans-serif; --font-ui: "Space Grotesk", sans-serif;
+      --font-body: "Manrope", sans-serif; --max: 1320px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; }
+    body.modal-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--lime); outline-offset: 4px; }
+    ::selection { background: var(--lime); color: var(--bg); }
+    .noise { position: fixed; inset: 0; pointer-events: none; z-index: 20; opacity: .035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E"); }
+    .container { width: min(var(--max), calc(100% - 64px)); margin-inline: auto; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font: 600 11px var(--font-ui); letter-spacing: .16em; text-transform: uppercase; }
+    .eyebrow::before { content: ""; display: block; width: 22px; height: 1px; background: var(--lime); }
+    .lime { color: var(--lime); }
+    .muted { color: var(--muted); }
+    .section { padding: 120px 0; position: relative; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 48px; }
+    .section-head h2 { margin: 18px 0 0; font: 700 clamp(2.7rem, 6vw, 5.6rem)/.94 var(--font-display); letter-spacing: -.065em; text-transform: uppercase; }
+    .section-head p { max-width: 320px; margin: 0 0 5px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 18px; min-height: 52px; padding: 0 21px; border: 1px solid var(--line); border-radius: 3px; font: 700 11px var(--font-ui); letter-spacing: .1em; text-transform: uppercase; transition: background .25s, color .25s, border-color .25s, transform .25s; cursor: pointer; }
+    .btn:hover { transform: translateY(-2px); border-color: var(--lime); }
+    .btn-primary { color: var(--bg); background: var(--lime); border-color: var(--lime); }
+    .btn-primary:hover { background: #d8ff75; }
+    .btn-quiet { background: rgba(255,255,255,.025); }
+    .btn .arrow { font-size: 16px; transition: transform .25s; }
+    .btn:hover .arrow { transform: translate(3px,-2px); }
+    /* Navigation */
+    .nav { position: fixed; z-index: 50; top: 0; left: 0; width: 100%; border-bottom: 1px solid transparent; transition: background .3s, border-color .3s; }
+    .nav.scrolled { background: rgba(9,9,13,.88); backdrop-filter: blur(18px); border-color: var(--line); }
+    .nav-inner { min-height: 82px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; font: 800 19px var(--font-display); letter-spacing: -.055em; white-space: nowrap; }
+    .brand-mark { width: 26px; height: 26px; display: grid; place-items: center; position: relative; }
+    .brand-mark svg { width: 100%; height: 100%; }
+    .brand-word span { color: var(--lime); }
+    .nav-links { display: flex; align-items: center; gap: clamp(20px, 3vw, 42px); margin-left: auto; }
+    .nav-links a { color: #d3d1d8; font: 600 10px var(--font-ui); letter-spacing: .12em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--lime); }
+    .nav-cta { min-height: 42px; padding-inline: 16px; }
+    .menu-toggle { display: none; width: 44px; height: 44px; border: 1px solid var(--line); background: transparent; color: var(--text); cursor: pointer; }
+    /* Hero */
+    .hero { min-height: 790px; min-height: min(900px, 100svh); display: flex; align-items: center; position: relative; isolation: isolate; overflow: hidden; padding: 130px 0 76px; }
+    .hero::before { content: ""; position: absolute; z-index: -2; inset: 0; background: radial-gradient(ellipse at 73% 43%, rgba(167,139,250,.12), transparent 32%), radial-gradient(ellipse at 90% 70%, rgba(199,255,61,.07), transparent 28%), linear-gradient(180deg, #09090d 0%, #0b0a11 70%, #09090d 100%); }
+    .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: 30px; position: relative; z-index: 2; }
+    .hero-copy { position: relative; z-index: 3; }
+    .hero .eyebrow { margin-bottom: 28px; }
+    .hero h1 { margin: 0; font: 800 clamp(4rem, 9.5vw, 9.5rem)/.82 var(--font-display); letter-spacing: -.09em; text-transform: uppercase; }
+    .hero h1 .line { display: block; }
+    .hero h1 .outline { color: transparent; -webkit-text-stroke: 1px rgba(245,243,238,.72); }
+    .hero h1 .last { display: flex; align-items: center; gap: 14px; }
+    .hero h1 .last .dot { color: var(--lime); }
+    .hero-desc { max-width: 475px; margin: 30px 0 28px; color: #b4b2bd; font-size: 15px; line-height: 1.85; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-meta { display: flex; align-items: center; gap: 18px; margin-top: 56px; color: var(--muted); font: 600 10px var(--font-ui); letter-spacing: .13em; text-transform: uppercase; }
+    .hero-meta .pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 14px rgba(199,255,61,.8); }
+    .hero-art { min-height: 510px; position: relative; display: grid; place-items: center; perspective: 900px; }
+    .orbital { position: absolute; width: min(42vw, 510px); aspect-ratio: 1; border: 1px solid rgba(245,243,238,.13); border-radius: 50%; transform: rotateX(66deg) rotateZ(-24deg); }
+    .orbital::before, .orbital::after { content: ""; position: absolute; inset: 12%; border: 1px solid rgba(167,139,250,.2); border-radius: 50%; }
+    .orbital::after { inset: 26%; border-color: rgba(199,255,61,.22); }
+    .prism-wrap { width: min(31vw, 350px); min-width: 235px; aspect-ratio: .78; position: relative; transform: rotate(-9deg); filter: drop-shadow(0 24px 70px rgba(167,139,250,.18)); animation: prismFloat 8s ease-in-out infinite; }
+    .prism { position: absolute; inset: 0; clip-path: polygon(50% 0%, 100% 80%, 50% 100%, 0 80%); background: linear-gradient(132deg, rgba(245,243,238,.8), rgba(167,139,250,.2) 20%, rgba(199,255,61,.2) 42%, rgba(87,67,140,.3) 61%, rgba(245,243,238,.6)); }
+    .prism::before { content: ""; position: absolute; inset: 2px; clip-path: inherit; background: linear-gradient(140deg, rgba(167,139,250,.28), rgba(9,9,13,.9) 38%, rgba(167,139,250,.08) 56%, rgba(199,255,61,.18)); }
+    .prism::after { content: ""; position: absolute; width: 1px; height: 120%; top: -10%; left: 49%; background: rgba(255,255,255,.72); box-shadow: 0 0 22px 4px rgba(167,139,250,.3); transform: rotate(25deg); }
+    .prism-shine { position: absolute; top: 18%; left: 13%; width: 35%; height: 54%; background: linear-gradient(110deg, rgba(255,255,255,.45), transparent); filter: blur(12px); clip-path: polygon(0 0,100% 10%,60% 100%); }
+    .art-label { position: absolute; font: 600 9px var(--font-ui); letter-spacing: .18em; color: #b8b3c5; text-transform: uppercase; }
+    .art-label.one { right: 0; top: 18%; writing-mode: vertical-rl; }
+    .art-label.two { bottom: 8%; left: 0; }
+    .art-cross { position: absolute; width: 24px; height: 24px; color: var(--lime); }
+    .art-cross::before, .art-cross::after { content: ""; position: absolute; background: currentColor; }
+    .art-cross::before { width: 1px; height: 100%; left: 50%; }
+    .art-cross::after { height: 1px; width: 100%; top: 50%; }
+    .art-cross.c1 { top: 17%; left: 14%; }
+    .art-cross.c2 { bottom: 19%; right: 12%; transform: scale(.6); color: var(--violet); }
+    .hero-bottom { position: absolute; left: 0; right: 0; bottom: 24px; display: flex; justify-content: space-between; color: #666570; font: 600 9px var(--font-ui); letter-spacing: .14em; text-transform: uppercase; }
+    .scroll-cue { display: flex; align-items: center; gap: 10px; }
+    .scroll-cue span { width: 28px; height: 1px; background: var(--lime); }
+    @keyframes prismFloat { 0%,100% { transform: translateY(0) rotate(-9deg); } 50% { transform: translateY(-13px) rotate(-6deg); } }
+    /* Marquee */
+    .marquee { overflow: hidden; border-block: 1px solid var(--line); background: #0c0c11; }
+    .marquee-track { display: flex; width: max-content; animation: marquee 28s linear infinite; }
+    .marquee-item { display: flex; align-items: center; gap: 28px; padding: 20px 28px; color: #8e8d98; font: 700 11px var(--font-ui); letter-spacing: .18em; text-transform: uppercase; white-space: nowrap; }
+    .marquee-item i { display: block; width: 5px; height: 5px; background: var(--lime); border-radius: 50%; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+    /* Showreel */
+    .showreel-shell { position: relative; overflow: hidden; min-height: 390px; aspect-ratio: 16/7; border: 1px solid var(--line); background: #101017; isolation: isolate; }
+    .showreel-visual { position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 58% 48%, rgba(167,139,250,.22), transparent 27%), radial-gradient(ellipse at 30% 72%, rgba(199,255,61,.13), transparent 30%), linear-gradient(120deg, #17151f, #08080b 58%, #1a1920); }
+    .showreel-visual::before { content: ""; position: absolute; inset: -30%; background: repeating-linear-gradient(118deg, transparent 0 9%, rgba(255,255,255,.025) 9.1% 9.25%, transparent 9.35% 18%); transform: rotate(-12deg); }
+    .showreel-visual::after { content: ""; position: absolute; width: 40%; aspect-ratio: 1; border: 1px solid rgba(199,255,61,.22); border-radius: 50%; left: 31%; top: 8%; box-shadow: 0 0 0 38px rgba(167,139,250,.025), 0 0 0 80px rgba(167,139,250,.025); }
+    .showreel-content { min-height: 390px; aspect-ratio: 16/7; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; }
+    .play-button { display: grid; place-items: center; width: 78px; height: 78px; border: 1px solid rgba(245,243,238,.65); border-radius: 50%; background: rgba(9,9,13,.45); color: var(--lime); cursor: pointer; transition: background .25s, transform .25s; backdrop-filter: blur(10px); }
+    .play-button:hover { background: var(--lime); color: var(--bg); transform: scale(1.07); }
+    .play-button svg { width: 22px; height: 22px; margin-left: 4px; }
+    .showreel-content h3 { margin: 24px 0 9px; font: 700 clamp(2rem, 5vw, 4.8rem)/.95 var(--font-display); letter-spacing: -.06em; text-transform: uppercase; }
+    .showreel-content p { margin: 0; color: var(--muted); font-size: 12px; }
+    .reel-corner { position: absolute; font: 600 9px var(--font-ui); letter-spacing: .16em; color: #a6a3b0; text-transform: uppercase; }
+    .reel-corner.tl { top: 24px; left: 24px; } .reel-corner.br { bottom: 24px; right: 24px; }
+    /* Work */
+    .work-section { padding-top: 115px; }
+    .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 30px; }
+    .filter { padding: 10px 14px; border: 1px solid var(--line); background: transparent; color: var(--muted); font: 600 10px var(--font-ui); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; transition: .2s; }
+    .filter:hover, .filter.active { color: var(--bg); background: var(--lime); border-color: var(--lime); }
+    .project-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 34px 20px; }
+    .project-card { grid-column: span 6; min-width: 0; }
+    .project-card.featured { grid-column: span 7; }
+    .project-card.compact { grid-column: span 5; }
+    .project-thumb { width: 100%; aspect-ratio: 1.35; position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); cursor: pointer; isolation: isolate; }
+    .project-card.compact .project-thumb { aspect-ratio: 1.1; }
+    .thumb-art { position: absolute; inset: 0; transition: transform .7s cubic-bezier(.2,.7,.2,1); overflow: hidden; }
+    .project-thumb:hover .thumb-art { transform: scale(1.035); }
+    .thumb-art::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, var(--g1, #24202f), var(--g2, #111116) 54%, var(--g3, #303d25)); }
+    .thumb-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,.62), transparent 45%); }
+    .thumb-shape { position: absolute; z-index: 1; width: 42%; aspect-ratio: .75; left: 30%; top: 12%; border: 1px solid rgba(255,255,255,.38); transform: rotate(28deg) skewY(-8deg); background: linear-gradient(130deg, rgba(255,255,255,.35), rgba(167,139,250,.08) 38%, rgba(0,0,0,.6)); box-shadow: 20px 20px 70px rgba(0,0,0,.3); }
+    .thumb-art .shape-two { position: absolute; z-index: 1; width: 29%; aspect-ratio: 1; border-radius: 50%; right: 12%; top: 20%; background: radial-gradient(circle at 32% 30%, rgba(255,255,255,.6), rgba(167,139,250,.14) 20%, rgba(8,8,12,.7) 68%); border: 1px solid rgba(255,255,255,.2); }
+    .thumb-word { position: absolute; z-index: 2; left: 6%; top: 8%; font: 800 clamp(2rem, 4.6vw, 5rem)/.8 var(--font-display); letter-spacing: -.08em; color: rgba(245,243,238,.9); text-transform: uppercase; }
+    .thumb-caption { position: absolute; z-index: 2; left: 20px; right: 20px; bottom: 17px; display: flex; justify-content: space-between; gap: 15px; color: rgba(245,243,238,.72); font: 600 9px var(--font-ui); letter-spacing: .13em; text-transform: uppercase; }
+    .project-play { position: absolute; z-index: 3; top: 50%; left: 50%; width: 54px; height: 54px; transform: translate(-50%,-50%) scale(.88); display: grid; place-items: center; border: 1px solid rgba(245,243,238,.6); border-radius: 50%; color: var(--lime); background: rgba(9,9,13,.5); opacity: 0; transition: .25s; }
+    .project-thumb:hover .project-play { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+    .project-info { display: flex; justify-content: space-between; align-items: start; gap: 16px; padding-top: 17px; }
+    .project-info h3 { margin: 0 0 7px; font: 700 20px var(--font-display); letter-spacing: -.035em; }
+    .project-info p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+    .project-number { color: #666570; font: 600 10px var(--font-ui); }
+    .work-empty { display: none; padding: 50px 20px; border: 1px dashed var(--line); text-align: center; color: var(--muted); }
+    .work-note { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line); margin-top: 48px; padding-top: 24px; color: var(--muted); font-size: 12px; }
+    /* Services */
+    .services-section { background: #0d0d12; border-block: 1px solid rgba(245,243,238,.04); }
+    .services-intro { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 48px; }
+    .services-intro h2 { margin: 18px 0 0; font: 700 clamp(2.7rem, 6vw, 5.5rem)/.93 var(--font-display); letter-spacing: -.07em; text-transform: uppercase; }
+    .services-intro p { max-width: 360px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .service-list { border-top: 1px solid var(--line); }
+    .service-row { display: grid; grid-template-columns: 70px minmax(220px, .9fr) 1.1fr 35px; gap: 24px; align-items: center; padding: 25px 0; border-bottom: 1px solid var(--line); transition: padding .25s; }
+    .service-row:hover { padding-inline: 10px; }
+    .service-no { color: var(--lime); font: 600 11px var(--font-ui); }
+    .service-row h3 { margin: 0; font: 600 clamp(1.2rem, 2.5vw, 1.8rem) var(--font-display); letter-spacing: -.035em; }
+    .service-row p { max-width: 430px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .service-arrow { color: #777581; font-size: 20px; transition: color .2s, transform .2s; }
+    .service-row:hover .service-arrow { color: var(--lime); transform: translate(3px,-3px); }
+    /* About */
+    .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 10%; align-items: start; }
+    .about-statement { position: sticky; top: 130px; }
+    .about-statement h2 { margin: 20px 0; font: 700 clamp(3.3rem, 7vw, 7rem)/.87 var(--font-display); letter-spacing: -.085em; text-transform: uppercase; }
+    .about-statement h2 em { font-family: "DM Serif Display", serif; font-weight: 400; text-transform: none; letter-spacing: -.07em; }
+    .about-body { padding-top: 12px; }
+    .about-body .lead { margin: 0 0 26px; font: 500 clamp(1.25rem, 2.4vw, 1.8rem)/1.45 var(--font-display); letter-spacing: -.03em; }
+    .about-body p { color: var(--muted); font-size: 14px; line-height: 1.9; }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 45px; }
+    .principle { min-height: 135px; padding: 18px 14px; border: 1px solid var(--line); background: rgba(255,255,255,.015); }
+    .principle span { display: block; margin-bottom: 24px; color: var(--lime); font: 600 10px var(--font-ui); }
+    .principle strong { font: 600 13px/1.4 var(--font-display); }
+    /* Process */
+    .process-section { padding-top: 95px; }
+    .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); margin-top: 55px; }
+    .process-step { padding: 24px 22px 0 0; position: relative; }
+    .process-step::before { content: ""; position: absolute; width: 7px; height: 7px; top: -4px; left: 0; background: var(--lime); border-radius: 50%; box-shadow: 0 0 15px rgba(199,255,61,.35); }
+    .process-step .step-no { color: var(--muted); font: 600 10px var(--font-ui); letter-spacing: .12em; }
+    .process-step h3 { margin: 28px 0 12px; font: 700 25px var(--font-display); letter-spacing: -.04em; }
+    .process-step p { max-width: 220px; margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    /* Contact */
+    .contact-section { padding: 120px 0 80px; background: radial-gradient(ellipse at 80% 70%, rgba(167,139,250,.08), transparent 32%); }
+    .contact-top { display: grid; grid-template-columns: 1fr .7fr; gap: 60px; align-items: end; }
+    .contact-top h2 { margin: 18px 0 0; font: 800 clamp(3.5rem, 8.7vw, 8.5rem)/.83 var(--font-display); letter-spacing: -.09em; text-transform: uppercase; }
+    .contact-top h2 em { font-family: "DM Serif Display", serif; font-weight: 400; text-transform: none; letter-spacing: -.07em; color: var(--lime); }
+    .contact-copy { color: var(--muted); font-size: 14px; line-height: 1.85; padding-bottom: 5px; }
+    .contact-copy a { display: inline-block; margin-top: 20px; color: var(--text); border-bottom: 1px solid var(--lime); padding-bottom: 5px; }
+    .contact-layout { display: grid; grid-template-columns: 1fr .7fr; gap: 60px; margin-top: 65px; padding-top: 35px; border-top: 1px solid var(--line); }
+    .contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .field { display: flex; flex-direction: column; gap: 9px; }
+    .field.full { grid-column: 1/-1; }
+    .field label { color: #aaa8b4; font: 600 10px var(--font-ui); letter-spacing: .1em; text-transform: uppercase; }
+    .field input, .field textarea, .field select { width: 100%; border: 1px solid var(--line); background: #111117; color: var(--text); border-radius: 0; padding: 15px 14px; outline: none; font-size: 13px; }
+    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--lime); }
+    .field textarea { min-height: 130px; resize: vertical; }
+    .field select option { background: #111117; }
+    .form-note { grid-column: 1/-1; color: var(--muted); font-size: 11px; line-height: 1.7; margin: 0; }
+    .contact-aside { display: flex; flex-direction: column; justify-content: space-between; gap: 36px; }
+    .aside-block small { color: var(--muted); font: 600 10px var(--font-ui); letter-spacing: .14em; text-transform: uppercase; }
+    .aside-block p { margin: 12px 0 0; font: 500 20px var(--font-display); }
+    .social-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+    .social-links a { border: 1px solid var(--line); padding: 10px 12px; color: #c3c1cb; font: 600 10px var(--font-ui); text-transform: uppercase; letter-spacing: .08em; transition: .2s; }
+    .social-links a:hover { border-color: var(--lime); color: var(--lime); }
+    /* Footer */
+    footer { padding: 25px 0 30px; border-top: 1px solid var(--line); }
+    .footer-main { display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+    .footer-tagline { color: var(--muted); font-size: 11px; }
+    .footer-right { display: flex; gap: 20px; color: var(--muted); font: 600 9px var(--font-ui); letter-spacing: .1em; text-transform: uppercase; }
+    .footer-right a:hover { color: var(--lime); }
+    .footer-bottom { display: flex; justify-content: space-between; gap: 20px; margin-top: 26px; padding-top: 16px; border-top: 1px solid rgba(245,243,238,.06); color: #666570; font: 600 9px var(--font-ui); letter-spacing: .1em; text-transform: uppercase; }
+    /* Video modal */
+    .video-modal { display: none; position: fixed; z-index: 100; inset: 0; padding: 30px; background: rgba(4,4,7,.92); backdrop-filter: blur(12px); align-items: center; justify-content: center; }
+    .video-modal.open { display: flex; }
+    .modal-panel { position: relative; width: min(1100px, 100%); }
+    .modal-close { position: absolute; right: 0; bottom: calc(100% + 14px); display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); padding: 10px 13px; color: var(--text); background: #111117; cursor: pointer; font: 600 10px var(--font-ui); letter-spacing: .1em; text-transform: uppercase; }
+    .video-frame { aspect-ratio: 16/9; background: #000; border: 1px solid var(--line); }
+    .video-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+    .modal-message { padding: 45px; text-align: center; border: 1px solid var(--line); background: var(--surface); }
+    .modal-message h3 { margin: 0 0 12px; font: 700 30px var(--font-display); }
+    .modal-message p { color: var(--muted); font-size: 13px; }
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+    @media (max-width: 980px) {
+      .container { width: min(var(--max), calc(100% - 42px)); }
+      .nav-inner { min-height: 72px; }
+      .nav-links { gap: 18px; }
+      .nav-links a { font-size: 9px; }
+      .nav-cta { display: none; }
+      .hero { min-height: auto; padding: 155px 0 100px; }
+      .hero-grid { grid-template-columns: 1fr .72fr; gap: 8px; }
+      .hero h1 { font-size: clamp(4rem, 10vw, 7.5rem); }
+      .hero-art { min-height: 420px; }
+      .section { padding: 90px 0; }
+      .project-grid { gap: 28px 16px; }
+      .service-row { grid-template-columns: 44px minmax(180px,.9fr) 1.1fr 25px; gap: 15px; }
+      .contact-top, .contact-layout { gap: 35px; }
+    }
+    @media (max-width: 700px) {
+      .container { width: calc(100% - 36px); }
+      .nav-inner { min-height: 68px; }
+      .brand { font-size: 17px; }
+      .menu-toggle { display: grid; place-items: center; }
+      .nav-links { display: none; position: absolute; top: 68px; left: 0; right: 0; padding: 22px 20px 26px; background: rgba(9,9,13,.98); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 0; }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 15px 0; font-size: 11px; border-bottom: 1px solid rgba(245,243,238,.07); }
+      .nav-links a:last-child { border-bottom: 0; }
+      .hero { padding: 135px 0 90px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: clamp(3.65rem, 15vw, 6.3rem); }
+      .hero-desc { max-width: 420px; margin-top: 24px; font-size: 13px; }
+      .hero-art { min-height: 260px; margin-top: 8px; }
+      .orbital { width: 260px; }
+      .prism-wrap { width: 175px; min-width: 175px; }
+      .art-label.one { right: 10%; }
+      .hero-meta { margin-top: 32px; font-size: 8px; }
+      .hero-bottom { bottom: 15px; font-size: 8px; }
+      .section { padding: 72px 0; }
+      .section-head, .services-intro { display: block; margin-bottom: 32px; }
+      .section-head p, .services-intro p { margin-top: 20px; }
+      .section-head h2, .services-intro h2 { font-size: clamp(2.8rem, 13vw, 4.5rem); }
+      .showreel-shell, .showreel-content { min-height: 330px; aspect-ratio: 4/3; }
+      .showreel-content { padding: 24px; }
+      .play-button { width: 64px; height: 64px; }
+      .reel-corner.tl { top: 15px; left: 15px; } .reel-corner.br { bottom: 15px; right: 15px; }
+      .filter-row { gap: 6px; }
+      .filter { padding: 9px 10px; font-size: 9px; }
+      .project-grid { display: block; }
+      .project-card, .project-card.featured, .project-card.compact { margin-bottom: 29px; }
+      .project-thumb, .project-card.compact .project-thumb { aspect-ratio: 1.15; }
+      .thumb-word { font-size: clamp(2.5rem, 13vw, 4rem); }
+      .project-play { opacity: 1; }
+      .work-note { align-items: start; flex-direction: column; }
+      .service-row { grid-template-columns: 34px 1fr 22px; gap: 12px; padding: 21px 0; }
+      .service-row p { grid-column: 2 / 3; grid-row: 2; }
+      .service-arrow { grid-column: 3; grid-row: 1; }
+      .service-row h3 { font-size: 20px; }
+      .about-grid { grid-template-columns: 1fr; gap: 28px; }
+      .about-statement { position: static; }
+      .about-statement h2 { font-size: clamp(3.5rem, 15vw, 5.6rem); }
+      .principles { grid-template-columns: 1fr; gap: 8px; margin-top: 30px; }
+      .principle { min-height: auto; padding: 16px; }
+      .principle span { margin-bottom: 12px; }
+      .process-grid { grid-template-columns: 1fr 1fr; row-gap: 38px; margin-top: 38px; }
+      .process-step { padding-right: 14px; }
+      .process-step h3 { margin-top: 18px; font-size: 22px; }
+      .contact-section { padding: 75px 0 50px; }
+      .contact-top { grid-template-columns: 1fr; gap: 24px; }
+      .contact-top h2 { font-size: clamp(3.6rem, 15vw, 6rem); }
+      .contact-layout { grid-template-columns: 1fr; gap: 40px; margin-top: 40px; }
+      .contact-form { grid-template-columns: 1fr; gap: 16px; }
+      .field.full { grid-column: auto; }
+      .form-note { grid-column: auto; }
+      .footer-main { align-items: start; flex-direction: column; }
+      .footer-right { flex-wrap: wrap; }
+      .footer-bottom { flex-direction: column; gap: 9px; }
+      .video-modal { padding: 18px; }
+      .modal-message { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="noise" aria-hidden="true"></div>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a class="brand" href="#home" aria-label="PRYSM Studios home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none"><path d="M20 2.5 37 32H3L20 2.5Z" stroke="#C7FF3D" stroke-width="1.6"/><path d="M20 13 29 29H11L20 13Z" fill="#C7FF3D" fill-opacity=".18" stroke="#F5F3EE" stroke-width="1"/><path d="M20 2.5V37" stroke="#A78BFA" stroke-width="1"/></svg>
+        </span>
+        <span class="brand-word">PRYSM <span>STUDIOS</span></span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a>
+      </nav>
+      <a class="btn btn-primary nav-cta" href="#contact">Let's create <span class="arrow">↗</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7h18M3 17h18"/></svg></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Independent creative production studio</div>
+          <h1><span class="line">We make</span><span class="line outline">the unreal</span><span class="line last">feel real<span class="dot">.</span></span></h1>
+          <p class="hero-desc">We turn ambitious ideas into cinematic films, AI-powered advertisements, and visual experiences designed to make an impression.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#work">Explore our work <span class="arrow">↓</span></a>
+            <a class="btn btn-quiet" href="#contact">Start a project <span class="arrow">↗</span></a>
+          </div>
+          <div class="hero-meta"><span class="pulse"></span><span>AI-powered production</span><span>·</span><span>Human-led creativity</span></div>
+        </div>
+        <div class="hero-art" aria-label="Abstract prism-inspired artwork">
+          <div class="orbital"></div><div class="art-cross c1"></div><div class="art-cross c2"></div>
+          <div class="prism-wrap"><div class="prism"></div><div class="prism-shine"></div></div>
+          <div class="art-label one">Different perspectives / 001</div><div class="art-label two">Ideas, reimagined.</div>
+        </div>
+      </div>
+      <div class="container hero-bottom"><span>Creative direction · Production · Post</span><span class="scroll-cue"><span></span> Scroll to explore</span></div>
+    </section>
+
+    <div class="marquee" aria-label="Studio capabilities">
+      <div class="marquee-track" aria-hidden="true">
+        <div class="marquee-item">AI FILMS <i></i> COMMERCIALS <i></i> MOTION DESIGN <i></i> PRODUCT VISUALS <i></i> CREATIVE DIRECTION <i></i> POST-PRODUCTION <i></i></div>
+        <div class="marquee-item">AI FILMS <i></i> COMMERCIALS <i></i> MOTION DESIGN <i></i> PRODUCT VISUALS <i></i> CREATIVE DIRECTION <i></i> POST-PRODUCTION <i></i></div>
+      </div>
+    </div>
+
+    <section class="section" id="showreel">
+      <div class="container reveal">
+        <div class="section-head">
+          <div><div class="eyebrow">A glimpse into our world</div><h2>Motion with<br><span class="lime">meaning.</span></h2></div>
+          <p>A moving canvas for ideas that deserve more than the ordinary. Add your studio showreel to bring this space to life.</p>
+        </div>
+        <div class="showreel-shell">
+          <div class="showreel-visual"></div>
+          <span class="reel-corner tl">PRYSM STUDIOS / REEL 001</span>
+          <div class="showreel-content">
+            <button class="play-button" id="reelPlay" aria-label="Play studio showreel"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.8c0-.8.9-1.3 1.6-.9l11 6.4c.7.4.7 1.4 0 1.8l-11 6.4c-.7.4-1.6-.1-1.6-.9V4.8Z"/></svg></button>
+            <h3>See the <span class="lime">possibilities.</span></h3>
+            <p>Showreel placeholder · Your film goes here</p>
+          </div>
+          <span class="reel-corner br">PLAY FILM ↗</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work-section" id="work">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="eyebrow">The work speaks</div><h2>Selected work.<br><span class="lime">Built to be seen.</span></h2></div>
+          <p>A growing collection of films, experiments, and visual stories. Your real projects can be added through one editable data list.</p>
+        </div>
+        <div class="filter-row reveal" id="filters" aria-label="Filter projects">
+          <button class="filter active" data-filter="All Work">All Work</button>
+          <button class="filter" data-filter="AI Films">AI Films</button>
+          <button class="filter" data-filter="Advertisements">Advertisements</button>
+          <button class="filter" data-filter="Product Films">Product Films</button>
+          <button class="filter" data-filter="Motion Graphics">Motion Graphics</button>
+          <button class="filter" data-filter="Brand Campaigns">Brand Campaigns</button>
+          <button class="filter" data-filter="Experiments">Experiments</button>
+        </div>
+        <div class="project-grid reveal" id="projectGrid"></div>
+        <div class="work-empty" id="workEmpty">No projects in this category yet. Add your work in <code>PROJECTS</code> inside <code>index.html</code>.</div>
+        <div class="work-note reveal"><span>Every frame starts with an idea.</span><a class="btn btn-quiet" href="#contact">Have a project in mind? <span class="arrow">↗</span></a></div>
+      </div>
+    </section>
+
+    <section class="section services-section" id="services">
+      <div class="container">
+        <div class="services-intro reveal">
+          <div><div class="eyebrow">What we bring to the frame</div><h2>Creative range.<br><span class="lime">One vision.</span></h2></div>
+          <p>From the first spark to the final frame, we bring strategy, emerging tools, and craft together to build work with a point of view.</p>
+        </div>
+        <div class="service-list reveal">
+          <div class="service-row"><span class="service-no">01 /</span><h3>AI-Powered Advertising</h3><p>Distinctive ad concepts and campaign visuals built around the possibilities of AI-assisted production.</p><span class="service-arrow">↗</span></div>
+          <div class="service-row"><span class="service-no">02 /</span><h3>AI Films & Visual Production</h3><p>Atmospheric visual stories, cinematic sequences, and imaginative worlds made for the screen.</p><span class="service-arrow">↗</span></div>
+          <div class="service-row"><span class="service-no">03 /</span><h3>Product Films</h3><p>Product-led storytelling that gives materials, details, and design a compelling visual presence.</p><span class="service-arrow">↗</span></div>
+          <div class="service-row"><span class="service-no">04 /</span><h3>Motion Graphics & Animation</h3><p>Purposeful movement, kinetic typography, and animated systems that make messages memorable.</p><span class="service-arrow">↗</span></div>
+          <div class="service-row"><span class="service-no">05 /</span><h3>Video Editing & Post</h3><p>Rhythm, pacing, sound, and finishing touches that turn individual shots into a cohesive story.</p><span class="service-arrow">↗</span></div>
+          <div class="service-row"><span class="service-no">06 /</span><h3>Creative Direction & Concepts</h3><p>Visual thinking, campaign ideas, and clear creative direction from the first brief onward.</p><span class="service-arrow">↗</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container about-grid">
+        <div class="about-statement reveal"><div class="eyebrow">A different point of view</div><h2>We see things <em>a little</em> <span class="lime">differently.</span></h2></div>
+        <div class="about-body reveal">
+          <p class="lead">PRYSM Studios explores the intersection of imagination, advertising, and emerging technology.</p>
+          <p>Through creative direction, AI-assisted workflows, motion design, and visual storytelling, we turn ambitious ideas into distinctive visual experiences.</p>
+          <p>Technology expands the possibilities. Creativity gives them purpose. We believe the strongest work doesn't just look different — it has a reason to exist.</p>
+          <div class="principles">
+            <div class="principle"><span>01 / PRINCIPLE</span><strong>Ideas before effects.</strong></div>
+            <div class="principle"><span>02 / PRINCIPLE</span><strong>Technology with intention.</strong></div>
+            <div class="principle"><span>03 / PRINCIPLE</span><strong>Every frame has a purpose.</strong></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section process-section" id="process">
+      <div class="container">
+        <div class="section-head reveal">
+          <div><div class="eyebrow">From first thought to final frame</div><h2>Make it real.<br><span class="lime">Make it matter.</span></h2></div>
+          <p>A considered process keeps the work focused, collaborative, and creatively ambitious at every stage.</p>
+        </div>
+        <div class="process-grid reveal">
+          <div class="process-step"><span class="step-no">01 — DISCOVER</span><h3>Find the why.</h3><p>Understand the brand, objective, audience, and opportunity.</p></div>
+          <div class="process-step"><span class="step-no">02 — CONCEPT</span><h3>Shape the idea.</h3><p>Develop the creative direction and visual treatment.</p></div>
+          <div class="process-step"><span class="step-no">03 — PRODUCE</span><h3>Build the world.</h3><p>Bring the concept to life through AI, design, animation, and editing.</p></div>
+          <div class="process-step"><span class="step-no">04 — REFINE</span><h3>Make it land.</h3><p>Polish the details and deliver the final work with intention.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="contact-top reveal">
+          <div><div class="eyebrow">The next frame starts here</div><h2>Have an idea?<br>Let's make it <em>impossible</em><br>to ignore.</h2></div>
+          <div class="contact-copy">Have a brand, a brief, or an idea that feels a little out of reach? Tell us what you're imagining and let's find a way to make it real.<br><a href="mailto:hello@prysmstudios.com" id="emailLink">hello@prysmstudios.com ↗</a></div>
+        </div>
+        <div class="contact-layout reveal">
+          <form class="contact-form" id="contactForm">
+            <div class="field"><label for="name">Your name *</label><input id="name" name="name" required placeholder="Name" autocomplete="name"></div>
+            <div class="field"><label for="email">Email address *</label><input id="email" name="email" type="email" required placeholder="you@company.com" autocomplete="email"></div>
+            <div class="field"><label for="brand">Brand / company</label><input id="brand" name="brand" placeholder="Your brand"></div>
+            <div class="field"><label for="budget">Project budget</label><select id="budget" name="budget"><option value="">Select a range</option><option>Under ₹25,000</option><option>₹25,000 – ₹50,000</option><option>₹50,000 – ₹1,00,000</option><option>₹1,00,000+</option><option>Let's discuss</option></select></div>
+            <div class="field full"><label for="message">Tell us about the project *</label><textarea id="message" name="message" required placeholder="The idea, the goal, the feeling you're after…"></textarea></div>
+            <button class="btn btn-primary" type="submit">Prepare project email <span class="arrow">↗</span></button>
+            <p class="form-note">This form opens your email app with the project details filled in. It does not send anything automatically.</p>
+          </form>
+          <aside class="contact-aside">
+            <div class="aside-block"><small>Start a conversation</small><p>Good ideas deserve<br>a good conversation.</p></div>
+            <div class="aside-block"><small>Follow the process</small><div class="social-links"><a href="#" data-config-link="instagram">Instagram ↗</a><a href="#" data-config-link="youtube">YouTube ↗</a><a href="#" data-config-link="linkedin">LinkedIn ↗</a></div></div>
+            <div class="aside-block"><small>Based on curiosity.<br>Built on creativity.</small><p class="lime">Ideas, reimagined.</p></div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-main">
+        <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M20 2.5 37 32H3L20 2.5Z" stroke="#C7FF3D" stroke-width="1.6"/><path d="M20 13 29 29H11L20 13Z" fill="#C7FF3D" fill-opacity=".18" stroke="#F5F3EE" stroke-width="1"/></svg></span><span class="brand-word">PRYSM <span>STUDIOS</span></span></a>
+        <span class="footer-tagline">AI-powered production. Human-led creativity.</span>
+        <div class="footer-right"><a href="#work">Work</a><a href="#services">Services</a><a href="#about">About</a><a href="#contact">Contact</a></div>
+      </div>
+      <div class="footer-bottom"><span>© <span id="year"></span> PRYSM Studios. All rights reserved.</span><a href="#top">Back to top ↑</a><span>Different perspectives. Extraordinary visuals.</span></div>
+    </div>
+  </footer>
+
+  <div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="Video player">
+    <div class="modal-panel"><button class="modal-close" id="modalClose"><span>✕</span> Close</button><div class="video-frame" id="videoFrame"></div></div>
+  </div>
+
+  <script>
+    /*
+      PRYSM STUDIOS — EDITABLE CONFIGURATION
+      1. Replace CONTACT_EMAIL and social URLs below.
+      2. Paste a YouTube URL into SHOWREEL_URL.
+      3. Add real portfolio projects to PROJECTS. Do not leave sample work presented as real.
+    */
+    const CONFIG = {
+      brand: "PRYSM Studios",
+      contactEmail: "hello@prysmstudios.com",
+      instagram: "",
+      youtube: "",
+      linkedin: "",
+      showreelUrl: ""
+    };
+
+    // Add projects here. Keep client names and project details factual.
+    // Example:
+    // { title:"Project Name", category:"AI Films", description:"Short project description.", youtubeUrl:"https://youtu.be/VIDEO_ID", thumbnail:"https://your-image-url.jpg", featured:true, year:"2026", services:"AI film · Editing" }
+    const PROJECTS = [];
+
+    const projectGrid = document.getElementById("projectGrid");
+    const workEmpty = document.getElementById("workEmpty");
+    const filters = document.getElementById("filters");
+    const modal = document.getElementById("videoModal");
+    const videoFrame = document.getElementById("videoFrame");
+    let lastFocused = null;
+
+    function parseYouTubeId(rawUrl) {
+      if (!rawUrl || typeof rawUrl !== "string") return null;
+      try {
+        const url = new URL(rawUrl.trim());
+        const host = url.hostname.replace(/^www\./, "").toLowerCase();
+        let id = null;
+        if (host === "youtu.be") id = url.pathname.split("/").filter(Boolean)[0];
+        else if (["youtube.com", "m.youtube.com", "music.youtube.com", "youtube-nocookie.com"].includes(host)) {
+          if (url.pathname === "/watch") id = url.searchParams.get("v");
+          else {
+            const match = url.pathname.match(/^\/(embed|shorts|live)\/([^/?]+)/);
+            if (match) id = match[2];
+          }
+        }
+        return id && /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
+      } catch { return null; }
+    }
+    function openVideo(rawUrl, title) {
+      const id = parseYouTubeId(rawUrl);
+      lastFocused = document.activeElement;
+      modal.classList.add("open");
+      document.body.classList.add("modal-open");
+      if (id) {
+        videoFrame.innerHTML = `<iframe title="${escapeHtml(title || "PRYSM Studios video")}" src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+      } else {
+        videoFrame.innerHTML = `<div class="modal-message"><h3>Showreel placeholder</h3><p>Add a valid YouTube URL to <code>CONFIG.showreelUrl</code> in <code>index.html</code> to activate playback.</p></div>`;
+      }
+      document.getElementById("modalClose").focus();
+    }
+    function closeVideo() {
+      modal.classList.remove("open");
+      document.body.classList.remove("modal-open");
+      videoFrame.innerHTML = "";
+      if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
+    }
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+    }
+    function projectCard(project, index) {
+      const category = project.category || "Experiments";
+      const id = parseYouTubeId(project.youtubeUrl || "");
+      const palettes = [
+        ["#372b45","#101018","#38401f"],["#42311e","#15131a","#40345a"],["#1d3540","#0c1015","#34351e"],
+        ["#4b2737","#151018","#33304c"],["#313b25","#101116","#32284a"],["#343044","#111117","#533b2b"]
+      ];
+      const palette = palettes[index % palettes.length];
+      const customStyle = `--g1:${palette[0]};--g2:${palette[1]};--g3:${palette[2]}`;
+      const title = project.title || "Untitled project";
+      const art = project.thumbnail
+        ? `<div class="thumb-art" style="${customStyle};background-image:url('${escapeHtml(project.thumbnail)}');background-size:cover;background-position:center"></div>`
+        : `<div class="thumb-art" style="${customStyle}"><span class="thumb-word">${escapeHtml(project.artLabel || "PRYSM")}</span><div class="thumb-shape"></div><div class="shape-two"></div></div>`;
+      const playable = !!id;
+      return `<article class="project-card ${project.featured ? "featured" : "compact"}" data-category="${escapeHtml(category)}">
+        <div class="project-thumb" role="button" tabindex="0" aria-label="${playable ? "Play " : "View "}${escapeHtml(title)}" data-video="${escapeHtml(project.youtubeUrl || "")}" data-title="${escapeHtml(title)}" style="${customStyle}">
+          ${art}<div class="project-play" aria-hidden="true">▶</div><div class="thumb-caption"><span>${escapeHtml(category)}</span><span>${escapeHtml(project.year || "PROJECT")}</span></div>
+        </div>
+        <div class="project-info"><div><h3>${escapeHtml(title)}</h3><p>${escapeHtml(project.description || "")}${project.services ? `<br>${escapeHtml(project.services)}` : ""}</p></div><span class="project-number">${String(index+1).padStart(2,"0")}</span></div>
+      </article>`;
+    }
+    function renderProjects(filter = "All Work") {
+      const filtered = PROJECTS.filter(p => filter === "All Work" || p.category === filter);
+      projectGrid.innerHTML = filtered.map(projectCard).join("");
+      workEmpty.style.display = filtered.length ? "none" : "block";
+      projectGrid.style.display = filtered.length ? "grid" : "none";
+      // Hide filters for categories with no projects; All Work always stays available.
+      const existing = new Set(PROJECTS.map(p => p.category));
+      filters.querySelectorAll(".filter").forEach(btn => {
+        const category = btn.dataset.filter;
+        btn.style.display = category === "All Work" || existing.has(category) ? "inline-flex" : "none";
+        btn.classList.toggle("active", category === filter);
+      });
+    }
+    function updateLinks() {
+      const emailLink = document.getElementById("emailLink");
+      emailLink.href = `mailto:${CONFIG.contactEmail}`;
+      emailLink.textContent = `${CONFIG.contactEmail} ↗`;
+      document.querySelectorAll("[data-config-link]").forEach(link => {
+        const url = CONFIG[link.dataset.configLink];
+        if (url) { link.href = url; link.target = "_blank"; link.rel = "noopener noreferrer"; }
+        else { link.href = "#contact"; link.addEventListener("click", e => { e.preventDefault(); alert("Add your " + link.dataset.configLink + " URL in CONFIG inside index.html."); }); }
+      });
+    }
+
+    renderProjects();
+    updateLinks();
+    document.getElementById("year").textContent = new Date().getFullYear();
+    document.getElementById("reelPlay").addEventListener("click", () => openVideo(CONFIG.showreelUrl, "PRYSM Studios Showreel"));
+    document.getElementById("modalClose").addEventListener("click", closeVideo);
+    modal.addEventListener("click", e => { if (e.target === modal) closeVideo(); });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && modal.classList.contains("open")) closeVideo();
+      if (e.key === "Tab" && modal.classList.contains("open")) {
+        const close = document.getElementById("modalClose");
+        if (e.shiftKey && document.activeElement === close) { e.preventDefault(); close.focus(); }
+      }
+    });
+    filters.addEventListener("click", e => {
+      const button = e.target.closest(".filter");
+      if (!button) return;
+      renderProjects(button.dataset.filter);
+    });
+    projectGrid.addEventListener("click", e => {
+      const card = e.target.closest(".project-thumb");
+      if (card) openVideo(card.dataset.video, card.dataset.title);
+    });
+    projectGrid.addEventListener("keydown", e => {
+      if ((e.key === "Enter" || e.key === " ") && e.target.matches(".project-thumb")) { e.preventDefault(); openVideo(e.target.dataset.video, e.target.dataset.title); }
+    });
+    document.getElementById("contactForm").addEventListener("submit", e => {
+      e.preventDefault();
+      const form = new FormData(e.currentTarget);
+      const subject = encodeURIComponent(`Project enquiry — ${form.get("brand") || form.get("name")}`);
+      const body = encodeURIComponent(
+        `Name: ${form.get("name")}\nEmail: ${form.get("email")}\nBrand / company: ${form.get("brand") || "Not provided"}\nBudget: ${form.get("budget") || "Not specified"}\n\nProject details:\n${form.get("message")}`
+      );
+      window.location.href = `mailto:${CONFIG.contactEmail}?subject=${subject}&body=${body}`;
+    });
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    menuToggle.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(open));
+      menuToggle.setAttribute("aria-label", open ? "Close navigation menu" : "Open navigation menu");
+    });
+    navLinks.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      navLinks.classList.remove("open"); menuToggle.setAttribute("aria-expanded", "false");
+    }));
+    const nav = document.querySelector(".nav");
+    const onScroll = () => nav.classList.toggle("scrolled", window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+    if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); } });
+      }, {threshold:.12});
+      document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    } else document.querySelectorAll(".reveal").forEach(el => el.classList.add("visible"));
+  </script>
+</body>
+</html>
